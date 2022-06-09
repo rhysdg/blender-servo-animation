@@ -5,27 +5,27 @@ from ..utils.servo_settings import range_limit_value
 
 
 def update_position_min(self, _context):
-    self["position_min"] = range_limit_value(
+    self.position_min = range_limit_value(
         self.position_min, None, self.position_max)
 
 
 def update_position_max(self, _context):
-    self["position_max"] = range_limit_value(
+    self.position_max = range_limit_value(
         self.position_max, self.position_min, None)
 
 
 def update_position_limit_start(self, _context):
-    self["position_limit_start"] = range_limit_value(
+    self.position_limit_start = range_limit_value(
         self.position_limit_start, self.position_min, self.position_limit_end)
 
 
 def update_position_limit_end(self, _context):
-    self["position_limit_end"] = range_limit_value(
+    self.position_limit_end = range_limit_value(
         self.position_limit_end, self.position_limit_start, self.position_max)
 
 
 def update_neutral_angle(self, _context):
-    self["neutral_angle"] = range_limit_value(
+    self.neutral_angle = range_limit_value(
         self.neutral_angle, None, self.rotation_range)
 
 
@@ -58,7 +58,7 @@ class BonePropertyGroup(PropertyGroup):
         update=update_position_max
     )
     position_limit_start: bpy.props.IntProperty(
-        name="Position Limit Start",
+        name="Limit Start",
         default=150,
         min=0,
         max=10000,
@@ -69,7 +69,7 @@ class BonePropertyGroup(PropertyGroup):
         update=update_position_limit_start
     )
     position_limit_end: bpy.props.IntProperty(
-        name="Position Limit End",
+        name="Limit End",
         default=600,
         min=0,
         max=10000,
@@ -100,7 +100,7 @@ class BonePropertyGroup(PropertyGroup):
         )
     )
     set_position_limits: bpy.props.BoolProperty(
-        name="Set Position Limits",
+        name="Limit Positions",
         description=(
             "Define a position range to limit the calculated position values "
             "according to a specific build"
