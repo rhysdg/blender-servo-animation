@@ -1,20 +1,25 @@
+# pylint: disable=wrong-import-position,wrong-import-order
+from .utils.system import register_vendor_path
+
+register_vendor_path()
+
 import bpy
 
-from bpy.app.handlers import persistent
-
-from .src.props.bone_property_group import BonePropertyGroup
-from .src.props.wm_property_group import WindowManagerPropertyGroup
-from .src.ui.bone_panel import BonePanel
-from .src.ui.menu_panel import MenuPanel
-from .src.export.json_export import JsonExport
-from .src.export.arduino_export import ArduinoExport
-from .src.utils.uart import UART_CONTROLLER
+from .props.bone_property_group import BonePropertyGroup
+from .props.wm_property_group import WindowManagerPropertyGroup
+from .ui.bone_panel import BonePanel
+from .ui.menu_panel import MenuPanel
+from .ops.json_export import JsonExport
+from .ops.arduino_export import ArduinoExport
+from .ops.start_live_mode import StartLiveMode
+from .ops.stop_live_mode import StopLiveMode
+from .ops.live_mode import LiveMode
 
 bl_info = {
     "name": "Export Animation as Servo Position Values",
     "author": "Tim Hendriks",
-    "version": (1, 2, 0),
-    "blender": (2, 80, 0),
+    "version": (1, 3, 0),
+    "blender": (2, 90, 0),
     "location": "Bone Properties > Servo Settings | File > Import-Export",
     "description": "Exports armature animations as servo position values.",
     "warning": "",
@@ -30,14 +35,11 @@ classes = (
     BonePanel,
     MenuPanel,
     ArduinoExport,
-    JsonExport
+    JsonExport,
+    StartLiveMode,
+    StopLiveMode,
+    LiveMode
 )
-
-
-@persistent
-def on_frame_change_post(scene):
-    if bpy.context.screen.is_animation_playing:
-        UART_CONTROLLER.update_positions(scene)
 
 
 def menu_func_export(self, _):
@@ -61,7 +63,6 @@ def register():
         type=WindowManagerPropertyGroup)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
     bpy.types.TIME_MT_editor_menus.append(menu_func_timeline)
-    bpy.app.handlers.frame_change_post.append(on_frame_change_post)
 
 
 def unregister():
@@ -73,4 +74,3 @@ def unregister():
     del bpy.types.WindowManager.servo_animation
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
     bpy.types.TIME_MT_editor_menus.remove(menu_func_timeline)
-    bpy.app.handlers.frame_change_post.remove(on_frame_change_post)

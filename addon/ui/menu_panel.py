@@ -1,6 +1,8 @@
 from bpy.types import Panel
-from ..export.json_export import JsonExport
-from ..export.arduino_export import ArduinoExport
+from ..ops.json_export import JsonExport
+from ..ops.arduino_export import ArduinoExport
+from ..ops.start_live_mode import StartLiveMode
+from ..ops.stop_live_mode import StopLiveMode
 from ..utils.uart import UART_CONTROLLER
 
 
@@ -21,28 +23,23 @@ class MenuPanel(Panel):
         layout.use_property_split = True
         layout.use_property_decorate = False
 
-        if not UART_CONTROLLER.has_serial_ports():
-            box = layout.box()
-            box.label(text="No serial port available", icon="ERROR")
+        col = layout.column()
+        col.label(text="Live Mode")
 
         if servo_animation.live_mode:
-            button_text = "Disconnect"
+            col.operator(StopLiveMode.bl_idname,
+                         text="Disconnect", depress=True)
         else:
-            button_text = "Connect"
-
-        col = layout.column(heading="Live Mode")
-        col.prop(servo_animation, "live_mode", toggle=True, text=button_text)
+            col.operator(StartLiveMode.bl_idname, text="Connect")
 
         col = layout.column(align=True)
-        col.active = not servo_animation.live_mode
         col.prop(servo_animation, "serial_port")
         col.prop(servo_animation, "baud_rate")
 
         col = layout.column()
-        col.active = servo_animation.live_mode
         col.prop(servo_animation, "position_jump_handling")
         col = layout.column()
-        col.active = servo_animation.live_mode and servo_animation.position_jump_handling
+        col.active = servo_animation.position_jump_handling
         col.prop(servo_animation, "position_jump_threshold")
 
         layout.separator()
