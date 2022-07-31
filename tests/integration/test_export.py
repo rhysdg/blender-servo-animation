@@ -35,7 +35,7 @@ def test_json_export(blender, filename, precision, results):
 
     assert not os.path.exists(export_file)
 
-    blender.set_file("examples/Simple/example.blend")
+    blender.set_file("examples/Simple/simple.blend")
     blender.start()
     blender.send_lines([
         "import bpy",
@@ -49,12 +49,12 @@ def test_json_export(blender, filename, precision, results):
     with open(export_file, 'r', encoding='utf-8') as file:
         parsed = json.load(file)
 
-    assert parsed["file"] == "example.blend"
+    assert parsed["file"] == "simple.blend"
     assert parsed["frames"] == 100
-    assert len(parsed["positions"]["Bone"]) == 100
+    assert len(parsed["servos"]["0"]["positions"]) == 100
 
     for frame, position in results.items():
-        assert parsed["positions"]["Bone"][frame] == position
+        assert parsed["servos"]["0"]["positions"][frame] == position
 
     os.remove(export_file)
 
@@ -83,7 +83,7 @@ def test_json_export(blender, filename, precision, results):
     ],
     ids=['Without precision', 'With precision']
 )
-def test_json_arduino(blender, filename, precision, results):
+def test_arduino_export(blender, filename, precision, results):
     export_file = blender.tmp(f"tests/tmp/{filename}")
 
     if os.path.exists(export_file):
@@ -91,7 +91,7 @@ def test_json_arduino(blender, filename, precision, results):
 
     assert not os.path.exists(export_file)
 
-    blender.set_file("examples/Simple/example.blend")
+    blender.set_file("examples/Simple/simple.blend")
     blender.start()
     blender.send_lines([
         "import bpy",
@@ -133,7 +133,7 @@ def test_json_arduino(blender, filename, precision, results):
 def test_no_servo_settings(blender, operator, filename):
     export_file = blender.tmp(f"tests/tmp/{filename}")
 
-    blender.set_file("examples/Simple/example.blend")
+    blender.set_file("examples/Simple/simple.blend")
     blender.start()
     blender.send_lines([
         "import bpy",
