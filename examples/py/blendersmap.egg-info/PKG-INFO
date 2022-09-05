@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: blendersmap
+Version: 0.0.1
+Summary: A python module complementing blender-servo-animation for use with Rapsberry pi/ Jetson devices etc
+Home-page: https://github.com/https://github.com/rhysdg/robonnx
+Author: Rhys Williams
+Author-email: rhysdgwilliams@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
