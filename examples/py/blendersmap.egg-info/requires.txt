@@ -1,3 +1,0 @@
-adafruit-circuitpython-servokit
-Jetson.GPIO
-ujson

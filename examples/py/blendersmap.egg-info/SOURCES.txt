@@ -1,7 +1,0 @@
-README.md
-setup.py
-blendersmap.egg-info/PKG-INFO
-blendersmap.egg-info/SOURCES.txt
-blendersmap.egg-info/dependency_links.txt
-blendersmap.egg-info/requires.txt
-blendersmap.egg-info/top_level.txt
